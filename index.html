@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7ff00" />
+    <title>Widget Chaos Lab</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Unbounded:wght@500;700;900&display=swap');
+
+      :root {
+        color-scheme: dark;
+        font-family: 'Space Mono', monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        --acid: #f7ff00;
+        --hot: #ff3ea5;
+        --electric: #16f4ff;
+        background: #13002f;
+        background-image: radial-gradient(
+            circle at 10% 10%,
+            #f30078 0 2%,
+            transparent 18%
+          ),
+          radial-gradient(circle at 90% 30%, #00f0ff 0 1%, transparent 23%),
+          linear-gradient(135deg, #13002f 0 42%, #102d2b 42% 44%, #13002f 44%);
+        color: white;
+        margin: 0;
+        min-width: 320px;
+      }
+      body::before {
+        background: repeating-linear-gradient(90deg, transparent 0 27px, #fff1 28px 29px);
+        content: '';
+        inset: 0;
+        pointer-events: none;
+        position: fixed;
+      }
+      .hero {
+        min-height: 32rem;
+        overflow: hidden;
+        padding: clamp(1.25rem, 4vw, 4rem);
+        position: relative;
+      }
+      .stamp {
+        background: var(--acid);
+        border: 3px solid #111;
+        box-shadow: 8px 8px 0 var(--hot);
+        color: #111;
+        display: inline-block;
+        font-weight: 700;
+        padding: 0.5rem 0.75rem;
+        transform: rotate(-3deg);
+      }
+      h1 {
+        color: var(--acid);
+        font-family: Unbounded, sans-serif;
+        font-size: clamp(2.8rem, 10vw, 9rem);
+        letter-spacing: -0.09em;
+        line-height: 0.89;
+        margin: 2.5rem 0 1rem;
+        max-width: 13ch;
+        text-shadow:
+          7px 7px 0 var(--hot),
+          14px 14px 0 #111;
+      }
+      .intro {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        line-height: 1.6;
+        max-width: 62ch;
+      }
+      .squiggle {
+        bottom: -5rem;
+        color: var(--electric);
+        font-size: 15rem;
+        font-weight: bold;
+        opacity: 0.8;
+        position: absolute;
+        right: 4vw;
+        transform: rotate(30deg);
+      }
+      main {
+        margin: 0 auto;
+        max-width: 1440px;
+        padding: 0 clamp(1rem, 4vw, 4rem) 5rem;
+        position: relative;
+      }
+      .integration-note {
+        background: #fff;
+        border: 4px solid #111;
+        box-shadow: 12px 12px 0 var(--electric);
+        color: #111;
+        margin: -5rem 0 4rem;
+        padding: 1.5rem;
+        position: relative;
+      }
+      .integration-note h2 {
+        font-family: Unbounded, sans-serif;
+        font-size: 1.1rem;
+        letter-spacing: -0.06em;
+        margin: 0 0 0.75rem;
+      }
+      .integration-note p {
+        font-size: 0.82rem;
+        line-height: 1.6;
+        margin: 0;
+        max-width: 75ch;
+      }
+      .wall {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(12, 1fr);
+      }
+      .scene {
+        border: 3px solid #111;
+        box-shadow: 10px 10px 0 #111;
+        min-height: 250px;
+        padding: clamp(1rem, 3vw, 2.5rem);
+        position: relative;
+      }
+      .scene h2 {
+        font-family: Unbounded, sans-serif;
+        font-size: clamp(1rem, 2vw, 1.7rem);
+        letter-spacing: -0.07em;
+        margin: 0 0 1.5rem;
+        max-width: 15ch;
+      }
+      .scene p {
+        font-size: 0.82rem;
+        max-width: 38ch;
+      }
+      .scene--sun {
+        background: repeating-radial-gradient(
+          circle at 45% 45%,
+          #f7ff00 0 12px,
+          #ff681e 13px 27px
+        );
+        color: #111;
+        grid-column: span 7;
+      }
+      .scene--ink {
+        background: #080808;
+        border-color: var(--acid);
+        grid-column: span 5;
+      }
+      .scene--ink h2 {
+        color: var(--acid);
+      }
+      .scene--bubble {
+        background: linear-gradient(135deg, #16f4ff, #8875ff 60%, #ff3ea5);
+        color: #111;
+        grid-column: span 4;
+      }
+      .scene--terminal {
+        background: #002d20;
+        border-color: #00ff8c;
+        grid-column: span 8;
+      }
+      .scene--terminal h2 {
+        color: #00ff8c;
+      }
+      .scene--terminal::after {
+        color: #00ff8c;
+        content: '> HOSTILE CSS ENVIRONMENT';
+        font-size: 0.7rem;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+      }
+      .widget-slot {
+        align-items: center;
+        background: #ffffff26;
+        border: 2px dashed currentColor;
+        display: flex;
+        min-height: 120px;
+        margin-top: 1.25rem;
+        max-width: 100%;
+        padding: 1rem;
+      }
+      .widget-slot__hint {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        opacity: 0.8;
+        text-transform: uppercase;
+      }
+      .widget-slot > div {
+        max-width: 100%;
+      }
+      .footer {
+        border-top: 2px dashed var(--acid);
+        font-size: 0.76rem;
+        line-height: 1.6;
+        margin-top: 5rem;
+        padding-top: 1.5rem;
+      }
+      code {
+        background: #fff2;
+        padding: 0.15rem 0.3rem;
+      }
+      @media (max-width: 900px) {
+        .scene--sun,
+        .scene--ink,
+        .scene--bubble,
+        .scene--terminal {
+          grid-column: span 12;
+        }
+      }
+      @media (max-width: 520px) {
+        h1 {
+          text-shadow:
+            4px 4px 0 var(--hot),
+            8px 8px 0 #111;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <span class="stamp">UNSAFE FOR BORING WEBSITES</span>
+      <h1>Widget<br />Chaos Lab</h1>
+      <p class="intro">
+        A deliberately unruly host page for checking whether affiliate widgets stay sharp
+        among loud colours, weird grids, hostile inherited styles, and every kind of
+        visual noise.
+      </p>
+      <span class="squiggle">≈</span>
+    </header>
+
+    <main>
+      <section class="integration-note">
+        <h2>Bring your own embed</h2>
+        <p>
+          This page intentionally loads no Omio scripts, CSS, fonts, or components. Paste
+          a widget container into any marked slot below, then add its script tag at the
+          end of
+          <code>body</code>. It behaves like an unrelated third-party website with loud
+          host styling.
+        </p>
+      </section>
+
+      <section class="wall" aria-label="Widget test scenarios">
+        <article class="scene scene--sun">
+          <h2>Festival poster</h2>
+          <p>Brutal contrast and an aggressively busy background.</p>
+          <div class="widget-slot">
+            <span class="widget-slot__hint"><div
+  data-omio-widget="route"
+  data-redirect="https://omio.sjv.io/c/121313/3963000/7385?u="
+  data-items="W3siZGVzdGluYXRpb25JZCI6MzgwNTUzLCJkZXN0aW5hdGlvbk5hbWUiOiJMb25kb24iLCJsaW5rVXJsIjoiaHR0cHM6Ly93d3cub21pby5jb20vdHJhdmVsLzM3OTcyNy8zODA1NTMiLCJvcmlnaW5JZCI6Mzc5NzI3LCJvcmlnaW5OYW1lIjoiUGFyaXMifSx7ImRlc3RpbmF0aW9uSWQiOjM3NjIxNywiZGVzdGluYXRpb25OYW1lIjoiQmVybGluIiwibGlua1VybCI6Imh0dHBzOi8vd3d3Lm9taW8uY29tL3RyYXZlbC8zODg0OTgvMzc2MjE3Iiwib3JpZ2luSWQiOjM4ODQ5OCwib3JpZ2luTmFtZSI6IlJvbWUifSx7ImRlc3RpbmF0aW9uSWQiOjM4MDU1MywiZGVzdGluYXRpb25OYW1lIjoiTG9uZG9uIiwibGlua1VybCI6Imh0dHBzOi8vd3d3Lm9taW8uY29tL3RyYXZlbC8zNzYyMTcvMzgwNTUzIiwib3JpZ2luSWQiOjM3NjIxNywib3JpZ2luTmFtZSI6IkJlcmxpbiJ9XQ=="
+></div></span>
+          </div>
+        </article>
+        <article class="scene scene--ink">
+          <h2>Night mode</h2>
+          <p>Bright host copy, near-black surroundings.</p>
+          <div class="widget-slot">
+            <span class="widget-slot__hint"><div
+  data-omio-widget="route"
+  data-redirect="https://omio.sjv.io/c/121313/3963000/7385?u="
+  data-items="W3siZGVzdGluYXRpb25JZCI6MzgwNTUzLCJkZXN0aW5hdGlvbk5hbWUiOiJMb25kb24iLCJsaW5rVXJsIjoiaHR0cHM6Ly93d3cub21pby5jb20vdHJhdmVsLzM3OTcyNy8zODA1NTMiLCJvcmlnaW5JZCI6Mzc5NzI3LCJvcmlnaW5OYW1lIjoiUGFyaXMifSx7ImRlc3RpbmF0aW9uSWQiOjM3NjIxNywiZGVzdGluYXRpb25OYW1lIjoiQmVybGluIiwibGlua1VybCI6Imh0dHBzOi8vd3d3Lm9taW8uY29tL3RyYXZlbC8zODg0OTgvMzc2MjE3Iiwib3JpZ2luSWQiOjM4ODQ5OCwib3JpZ2luTmFtZSI6IlJvbWUifSx7ImRlc3RpbmF0aW9uSWQiOjM4MDU1MywiZGVzdGluYXRpb25OYW1lIjoiTG9uZG9uIiwibGlua1VybCI6Imh0dHBzOi8vd3d3Lm9taW8uY29tL3RyYXZlbC8zNzYyMTcvMzgwNTUzIiwib3JpZ2luSWQiOjM3NjIxNywib3JpZ2luTmFtZSI6IkJlcmxpbiJ9XQ=="
+></div></span>
+          </div>
+        </article>
+        <article class="scene scene--bubble">
+          <h2>Gradient mess</h2>
+          <p>Good luck finding a neutral surface here.</p>
+          <div class="widget-slot">
+            <span class="widget-slot__hint"><div
+  data-omio-widget="route"
+  data-redirect="https://omio.sjv.io/c/121313/3963000/7385?u="
+  data-items="W3siZGVzdGluYXRpb25JZCI6MzgwNTUzLCJkZXN0aW5hdGlvbk5hbWUiOiJMb25kb24iLCJsaW5rVXJsIjoiaHR0cHM6Ly93d3cub21pby5jb20vdHJhdmVsLzM3OTcyNy8zODA1NTMiLCJvcmlnaW5JZCI6Mzc5NzI3LCJvcmlnaW5OYW1lIjoiUGFyaXMifSx7ImRlc3RpbmF0aW9uSWQiOjM3NjIxNywiZGVzdGluYXRpb25OYW1lIjoiQmVybGluIiwibGlua1VybCI6Imh0dHBzOi8vd3d3Lm9taW8uY29tL3RyYXZlbC8zODg0OTgvMzc2MjE3Iiwib3JpZ2luSWQiOjM4ODQ5OCwib3JpZ2luTmFtZSI6IlJvbWUifSx7ImRlc3RpbmF0aW9uSWQiOjM4MDU1MywiZGVzdGluYXRpb25OYW1lIjoiTG9uZG9uIiwibGlua1VybCI6Imh0dHBzOi8vd3d3Lm9taW8uY29tL3RyYXZlbC8zNzYyMTcvMzgwNTUzIiwib3JpZ2luSWQiOjM3NjIxNywib3JpZ2luTmFtZSI6IkJlcmxpbiJ9XQ=="
+></div></span>
+          </div>
+        </article>
+        <article class="scene scene--terminal">
+          <h2>Terminal from another universe</h2>
+          <p>Checks wide layouts inside a noisy, constrained parent.</p>
+          <div class="widget-slot">
+            <span class="widget-slot__hint"><div
+  data-omio-widget="route"
+  data-redirect="https://omio.sjv.io/c/121313/3963000/7385?u="
+  data-items="W3siZGVzdGluYXRpb25JZCI6MzgwNTUzLCJkZXN0aW5hdGlvbk5hbWUiOiJMb25kb24iLCJsaW5rVXJsIjoiaHR0cHM6Ly93d3cub21pby5jb20vdHJhdmVsLzM3OTcyNy8zODA1NTMiLCJvcmlnaW5JZCI6Mzc5NzI3LCJvcmlnaW5OYW1lIjoiUGFyaXMifSx7ImRlc3RpbmF0aW9uSWQiOjM3NjIxNywiZGVzdGluYXRpb25OYW1lIjoiQmVybGluIiwibGlua1VybCI6Imh0dHBzOi8vd3d3Lm9taW8uY29tL3RyYXZlbC8zODg0OTgvMzc2MjE3Iiwib3JpZ2luSWQiOjM4ODQ5OCwib3JpZ2luTmFtZSI6IlJvbWUifSx7ImRlc3RpbmF0aW9uSWQiOjM4MDU1MywiZGVzdGluYXRpb25OYW1lIjoiTG9uZG9uIiwibGlua1VybCI6Imh0dHBzOi8vd3d3Lm9taW8uY29tL3RyYXZlbC8zNzYyMTcvMzgwNTUzIiwib3JpZ2luSWQiOjM3NjIxNywib3JpZ2luTmFtZSI6IkJlcmxpbiJ9XQ=="
+></div></span>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">Zero Omio dependencies are loaded by this host page.</footer>
+    </main>
+    <script>
+  (function addWidget(d) {
+    var widgetStyle = d.createElement('link');
+    widgetStyle.setAttribute('rel', 'stylesheet');
+    widgetStyle.setAttribute('href', 'https://www.omio.com/gcs-proxy/affiliate-widgets-prod/route/route.css?v=' + new Date().getTime());
+    d.head.appendChild(widgetStyle);
+
+    var widgetScript = d.createElement('script');
+    widgetScript.setAttribute('src', 'https://www.omio.com/gcs-proxy/affiliate-widgets-prod/route/route.js?v=' + new Date().getTime());
+    d.body.appendChild(widgetScript);
+  })(document);
+</script>
+  </body>
+</html>
